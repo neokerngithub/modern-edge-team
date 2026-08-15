@@ -2,6 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { ValuationVisual } from "@/components/valuation-visual";
 import { ValuationProcess } from "@/components/valuation-process";
 import { ValuationForm } from "@/components/valuation-form";
+import { ValuationStickyCta } from "@/components/valuation-sticky-cta";
 
 const TITLE = "Property Valuation — Modern Edge Architects and Engineers";
 const DESCRIPTION =
@@ -220,6 +221,9 @@ function PropertyValuationPage() {
           </div>
         </div>
       </section>
+
+      <ValuationStickyCta />
+      <div className="h-14 lg:hidden" aria-hidden="true" />
     </>
   );
 }
