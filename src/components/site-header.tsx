@@ -58,7 +58,8 @@ export function SiteHeader() {
 
         <div className="flex items-center gap-3">
           <Link
-            to="/contact"
+            to="/property-valuation"
+            hash="request"
             className="hidden h-9 items-center border border-primary bg-primary px-5 text-[0.7rem] font-bold tracking-[0.16em] uppercase text-primary-foreground transition-colors hover:bg-transparent hover:text-primary md:inline-flex"
           >
             Request Valuation
@@ -115,7 +116,8 @@ export function SiteHeader() {
           </ul>
           <div className="mt-8 flex flex-col gap-3">
             <Link
-              to="/contact"
+              to="/property-valuation"
+              hash="request"
               onClick={() => setOpen(false)}
               className="inline-flex h-12 items-center justify-center bg-primary px-6 text-[0.72rem] font-bold tracking-[0.18em] uppercase text-primary-foreground"
             >
