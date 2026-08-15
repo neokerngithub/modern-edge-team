@@ -43,7 +43,7 @@ export function SiteHeader() {
           <Logo />
         </Link>
 
-        <nav className="hidden items-center gap-7 xl:flex" aria-label="Main">
+        <nav className="hidden items-center gap-6 whitespace-nowrap 2xl:flex" aria-label="Main">
           {NAV.map((item) => (
             <Link
               key={item.to}
@@ -69,7 +69,7 @@ export function SiteHeader() {
             onClick={() => setOpen((v) => !v)}
             aria-expanded={open}
             aria-label={open ? "Close menu" : "Open menu"}
-            className="inline-flex h-9 w-9 items-center justify-center border border-border text-foreground transition-colors hover:border-primary hover:text-primary xl:hidden"
+            className="inline-flex h-9 w-9 items-center justify-center border border-border text-foreground transition-colors hover:border-primary hover:text-primary 2xl:hidden"
           >
             <span className="relative block h-3 w-4">
               <span
@@ -94,7 +94,7 @@ export function SiteHeader() {
 
       {/* Mobile / tablet overlay menu */}
       <div
-        className={`fixed inset-x-0 top-[72px] bottom-0 z-40 overflow-y-auto bg-background transition-all duration-300 xl:hidden ${
+        className={`fixed inset-x-0 top-[72px] bottom-0 z-40 overflow-y-auto bg-background transition-all duration-300 2xl:hidden ${
           open ? "pointer-events-auto opacity-100" : "pointer-events-none opacity-0"
         }`}
       >
