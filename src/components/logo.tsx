@@ -1,17 +1,29 @@
-export function LogoMark({ className = "h-9 w-9" }: { className?: string }) {
+import blueMark from "@/assets/logo-mark-blue.png.asset.json";
+import whiteMark from "@/assets/logo-mark-white.png.asset.json";
+
+export function LogoMark({ className = "h-9" }: { className?: string }) {
   return (
-    <svg viewBox="0 0 40 40" className={className} aria-hidden="true">
-      <rect x="0.5" y="0.5" width="39" height="39" fill="none" stroke="currentColor" strokeOpacity="0.25" />
-      <path d="M8 30V10l12 12 12-12v20" fill="none" stroke="currentColor" strokeWidth="2.25" />
-      <path d="M8 30h24" stroke="var(--color-primary)" strokeWidth="2.25" />
-    </svg>
+    <span className={`relative inline-block shrink-0 ${className}`} aria-hidden="true">
+      <img
+        src={blueMark.url}
+        alt=""
+        className="block h-full w-auto object-contain dark:hidden"
+        draggable={false}
+      />
+      <img
+        src={whiteMark.url}
+        alt=""
+        className="hidden h-full w-auto object-contain dark:block"
+        draggable={false}
+      />
+    </span>
   );
 }
 
 export function Logo({ className = "" }: { className?: string }) {
   return (
     <span className={`flex items-center gap-3 text-foreground ${className}`}>
-      <LogoMark className="h-9 w-9 shrink-0" />
+      <LogoMark className="h-9" />
       <span className="leading-none">
         <span className="block text-[0.95rem] font-extrabold tracking-[0.14em] uppercase">
           Modern Edge
