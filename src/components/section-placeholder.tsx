@@ -24,7 +24,8 @@ export function SectionPlaceholder({
           Back to home
         </Link>
         <Link
-          to="/contact"
+          to="/property-valuation"
+          hash="request"
           className="inline-flex h-12 items-center bg-primary px-7 text-[0.72rem] font-bold tracking-[0.18em] uppercase text-primary-foreground transition-opacity hover:opacity-90"
         >
           Request Valuation
