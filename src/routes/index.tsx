@@ -83,7 +83,7 @@ function Index() {
             >
               <Link
                 to="/contact"
-                className="inline-flex h-13 items-center border border-primary bg-primary px-8 py-4 text-[0.72rem] font-bold tracking-[0.18em] uppercase text-primary-foreground transition-colors hover:bg-transparent hover:text-primary"
+                className="inline-flex items-center border border-primary bg-primary px-8 py-4 text-[0.72rem] font-bold tracking-[0.18em] uppercase text-primary-foreground transition-colors hover:bg-transparent hover:text-primary"
               >
                 Request Valuation
               </Link>
