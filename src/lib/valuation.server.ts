@@ -59,9 +59,9 @@ export async function handleValuationRequest(form: FormData): Promise<ValuationS
   }
 
   if (attachment) {
-    raw.attachmentName = attachment.name;
-    raw.attachmentSize = attachment.size;
-    raw.attachmentType = attachment.type;
+    raw["attachmentName"] = attachment.name;
+    raw["attachmentSize"] = attachment.size;
+    raw["attachmentType"] = attachment.type;
   }
 
   const parsed = valuationRequestSchema.safeParse(raw);
