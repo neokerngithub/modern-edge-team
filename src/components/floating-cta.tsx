@@ -21,7 +21,8 @@ export function FloatingCta() {
       >
         <p className="text-sm font-semibold tracking-tight">Need a Property Valuation?</p>
         <Link
-          to="/contact"
+          to="/property-valuation"
+          hash="request"
           className="mt-4 inline-flex h-10 items-center bg-primary px-5 text-[0.68rem] font-bold tracking-[0.18em] uppercase text-primary-foreground transition-opacity hover:opacity-90"
         >
           Request Valuation
@@ -35,7 +36,8 @@ export function FloatingCta() {
         }`}
       >
         <Link
-          to="/contact"
+          to="/property-valuation"
+          hash="request"
           className="flex h-14 items-center justify-center bg-primary text-[0.7rem] font-bold tracking-[0.18em] uppercase text-primary-foreground"
         >
           Request Valuation
