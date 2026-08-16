@@ -73,8 +73,9 @@ export function ConstructionProcess() {
         const el = sectionRef.current;
         if (!el) return;
         const rect = el.getBoundingClientRect();
-        const total = rect.height - window.innerHeight * 0.4;
-        const progress = total > 0 ? (window.innerHeight * 0.6 - rect.top) / total : 0;
+        const vh = window.innerHeight;
+        const span = rect.height + vh * 0.45;
+        const progress = span > 0 ? (vh * 0.8 - rect.top) / span : 0;
         const index = Math.round(Math.min(1, Math.max(0, progress)) * (STEPS.length - 1));
         setActive(index);
       });

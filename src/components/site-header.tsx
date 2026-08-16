@@ -124,7 +124,8 @@ export function SiteHeader() {
               Request Valuation
             </Link>
             <Link
-              to="/contact"
+              to="/construction"
+              hash="inquiry"
               onClick={() => setOpen(false)}
               className="inline-flex h-12 items-center justify-center border border-border px-6 text-[0.72rem] font-bold tracking-[0.18em] uppercase text-foreground"
             >

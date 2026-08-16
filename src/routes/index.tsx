@@ -89,7 +89,8 @@ function Index() {
                 Request Valuation
               </Link>
               <Link
-                to="/contact"
+                to="/construction"
+                hash="inquiry"
                 className="link-underline text-[0.72rem] font-bold tracking-[0.18em] uppercase text-foreground"
               >
                 Start a Project
@@ -234,7 +235,8 @@ function Index() {
               Request Valuation
             </Link>
             <Link
-              to="/contact"
+              to="/construction"
+              hash="inquiry"
               className="inline-flex items-center border border-border px-8 py-4 text-[0.72rem] font-bold tracking-[0.18em] uppercase transition-colors hover:border-primary hover:text-primary"
             >
               Start a Project

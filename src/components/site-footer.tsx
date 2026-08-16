@@ -70,7 +70,7 @@ export function SiteFooter() {
               </Link>
             </li>
             <li>
-              <Link to="/contact" className="transition-colors hover:text-primary">
+              <Link to="/construction" hash="inquiry" className="transition-colors hover:text-primary">
                 Start a project
               </Link>
             </li>
