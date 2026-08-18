@@ -29,7 +29,7 @@ export async function saveInquiry(record: InquiryRecord): Promise<void> {
     email: record.email,
     service: record.service ?? null,
     message: record.message ?? null,
-    details: record.details ?? {},
+    details: JSON.parse(JSON.stringify(record.details ?? {})),
   });
 
   if (error) {
