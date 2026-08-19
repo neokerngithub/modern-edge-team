@@ -61,11 +61,11 @@ export async function handleConstructionInquiry(
   await saveInquiry({
     kind: "construction",
     reference: result.reference,
-    fullName: data.fullName,
+    fullName: data.name,
     phone: data.phone,
     email: data.email,
     service: "Construction",
-    message: data.projectBrief ?? null,
+    message: data.message ?? null,
     details: {
       ...data,
       attachment: attachment
@@ -78,7 +78,7 @@ export async function handleConstructionInquiry(
     subject: `Construction inquiry ${result.reference}`,
     lines: [
       `Reference: ${result.reference}`,
-      `Name: ${data.fullName}`,
+      `Name: ${data.name}`,
       `Phone: ${data.phone}`,
       `Email: ${data.email}`,
       `Project type: ${data.projectType}`,

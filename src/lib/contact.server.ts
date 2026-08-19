@@ -1,5 +1,5 @@
 import { CONTACT_TEXT_FIELDS, contactInquirySchema } from "./contact-schema";
-import { buildReference, saveInquiry } from "./inquiries.server";
+import { buildReference, notifyInternal, saveInquiry } from "./inquiries.server";
 
 export type ContactSubmissionResult = {
   reference: string;
@@ -42,6 +42,18 @@ export async function handleContactInquiry(form: FormData): Promise<ContactSubmi
     service: data.service,
     message: data.message,
     details: { source: "contact-page" },
+  });
+
+  await notifyInternal({
+    subject: `Website inquiry ${reference}`,
+    lines: [
+      `Reference: ${reference}`,
+      `Name: ${data.fullName}`,
+      `Phone: ${data.phone}`,
+      `Email: ${data.email}`,
+      `Service: ${data.service}`,
+      `Message: ${data.message}`,
+    ],
   });
 
   return { reference, receivedAt: new Date().toISOString() };
