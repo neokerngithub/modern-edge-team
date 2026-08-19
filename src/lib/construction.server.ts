@@ -1,3 +1,4 @@
+import { buildReference, notifyInternal, saveInquiry } from "./inquiries.server";
 import {
   ATTACHMENT_TYPES,
   CONSTRUCTION_TEXT_FIELDS,
@@ -11,21 +12,12 @@ export type ConstructionSubmissionResult = {
   receivedAt: string;
 };
 
-function reference(): string {
-  const now = new Date();
-  const stamp = `${now.getUTCFullYear()}${String(now.getUTCMonth() + 1).padStart(2, "0")}${String(
-    now.getUTCDate(),
-  ).padStart(2, "0")}`;
-  const rand = Math.random().toString(36).slice(2, 7).toUpperCase();
-  return `ME-CN-${stamp}-${rand}`;
-}
-
 /**
  * Server-side handling of a construction inquiry.
  *
- * Persistence (database row + attachment in storage + notification email) is
- * added once Lovable Cloud is enabled. Until then the inquiry is validated on
- * the server and recorded in the server log, so nothing is faked in-browser.
+ * The inquiry is validated, stored in the database and an internal
+ * notification email is attempted. Attachment metadata is recorded; the file
+ * itself is not stored.
  */
 export async function handleConstructionInquiry(
   form: FormData,
@@ -62,16 +54,37 @@ export async function handleConstructionInquiry(
 
   const data: ConstructionInquiryInput = parsed.data;
   const result: ConstructionSubmissionResult = {
-    reference: reference(),
+    reference: buildReference("CN"),
     receivedAt: new Date().toISOString(),
   };
 
-  console.info("[construction-inquiry]", {
+  await saveInquiry({
+    kind: "construction",
     reference: result.reference,
-    projectType: data.projectType,
-    currentStage: data.currentStage,
-    requiredService: data.requiredService,
-    hasAttachment: Boolean(attachment),
+    fullName: data.fullName,
+    phone: data.phone,
+    email: data.email,
+    service: "Construction",
+    message: data.projectBrief ?? null,
+    details: {
+      ...data,
+      attachment: attachment
+        ? { name: attachment.name, size: attachment.size, type: attachment.type }
+        : null,
+    },
+  });
+
+  await notifyInternal({
+    subject: `Construction inquiry ${result.reference}`,
+    lines: [
+      `Reference: ${result.reference}`,
+      `Name: ${data.fullName}`,
+      `Phone: ${data.phone}`,
+      `Email: ${data.email}`,
+      `Project type: ${data.projectType}`,
+      `Current stage: ${data.currentStage}`,
+      `Required service: ${data.requiredService}`,
+    ],
   });
 
   return result;

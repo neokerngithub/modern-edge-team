@@ -1,3 +1,4 @@
+import { buildReference, notifyInternal, saveInquiry } from "./inquiries.server";
 import {
   ATTACHMENT_TYPES,
   MAX_ATTACHMENT_BYTES,
@@ -10,22 +11,12 @@ export type ValuationSubmissionResult = {
   receivedAt: string;
 };
 
-function reference(): string {
-  const now = new Date();
-  const stamp = `${now.getUTCFullYear()}${String(now.getUTCMonth() + 1).padStart(2, "0")}${String(
-    now.getUTCDate(),
-  ).padStart(2, "0")}`;
-  const rand = Math.random().toString(36).slice(2, 7).toUpperCase();
-  return `ME-PV-${stamp}-${rand}`;
-}
-
 /**
  * Server-side handling of a valuation request.
  *
- * Persistence (database row + attachment in storage + notification email) is
- * added in the next phase once Lovable Cloud is enabled for this project.
- * Until then the request is validated and recorded in the server log so no
- * submission is silently faked in the browser.
+ * The request is validated, stored in the database and an internal
+ * notification email is attempted. Attachment metadata is recorded; the file
+ * itself is not stored.
  */
 export async function handleValuationRequest(form: FormData): Promise<ValuationSubmissionResult> {
   const file = form.get("attachment");
@@ -72,16 +63,45 @@ export async function handleValuationRequest(form: FormData): Promise<ValuationS
 
   const data: ValuationRequestInput = parsed.data;
   const result: ValuationSubmissionResult = {
-    reference: reference(),
+    reference: buildReference("PV"),
     receivedAt: new Date().toISOString(),
   };
 
-  console.info("[valuation-request]", {
+  await saveInquiry({
+    kind: "valuation",
     reference: result.reference,
-    propertyType: data.propertyType,
-    purpose: data.purpose,
-    municipality: data.municipality,
-    hasAttachment: Boolean(attachment),
+    fullName: data.fullName,
+    phone: data.phone,
+    email: data.email,
+    service: "Property Valuation",
+    message: data.notes ?? null,
+    details: {
+      propertyType: data.propertyType,
+      propertyLocation: data.propertyLocation,
+      municipality: data.municipality,
+      landArea: data.landArea,
+      buildingArea: data.buildingArea,
+      purpose: data.purpose,
+      contactMethod: data.contactMethod,
+      attachment: attachment
+        ? { name: attachment.name, size: attachment.size, type: attachment.type }
+        : null,
+    },
+  });
+
+  await notifyInternal({
+    subject: `Valuation request ${result.reference}`,
+    lines: [
+      `Reference: ${result.reference}`,
+      `Name: ${data.fullName}`,
+      `Phone: ${data.phone}`,
+      `Email: ${data.email}`,
+      `Property type: ${data.propertyType}`,
+      `Location: ${data.propertyLocation}, ${data.municipality}`,
+      `Purpose: ${data.purpose}`,
+      `Preferred contact: ${data.contactMethod}`,
+      `Notes: ${data.notes ?? "-"}`,
+    ],
   });
 
   return result;
