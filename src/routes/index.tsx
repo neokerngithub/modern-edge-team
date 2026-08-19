@@ -1,6 +1,15 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { queryOptions, useSuspenseQuery } from "@tanstack/react-query";
 import { HeroVisual } from "@/components/hero-visual";
 import { FloatingCta } from "@/components/floating-cta";
+import { GoogleReviewsSection } from "@/components/google-reviews";
+import { getGoogleReviews } from "@/lib/reviews.functions";
+
+const reviewsQueryOptions = queryOptions({
+  queryKey: ["google-reviews"],
+  queryFn: () => getGoogleReviews(),
+  staleTime: 1000 * 60 * 30,
+});
 
 const TITLE = "Modern Edge Architects and Engineers | Valuation & Construction";
 const DESCRIPTION =
@@ -17,6 +26,7 @@ export const Route = createFileRoute("/")({
       { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
+  loader: ({ context }) => context.queryClient.ensureQueryData(reviewsQueryOptions),
   component: Index,
 });
 
@@ -34,6 +44,8 @@ const SECONDARY = [
 ];
 
 function Index() {
+  const { data: reviews } = useSuspenseQuery(reviewsQueryOptions);
+
   return (
     <>
       {/* HERO */}
@@ -218,6 +230,9 @@ function Index() {
           </ul>
         </div>
       </section>
+
+      {/* GOOGLE REVIEWS */}
+      <GoogleReviewsSection data={reviews} />
 
       {/* FINAL CTA */}
       <section className="relative overflow-hidden border-t border-hairline">
