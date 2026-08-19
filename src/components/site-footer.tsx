@@ -1,5 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import { Logo } from "./logo";
+import { EMAILS, PHONE_CONTACTS, SOCIAL_LINKS, telHref } from "@/lib/company";
+
 
 const SERVICES = [
   { label: "Property Valuation", to: "/property-valuation" },
