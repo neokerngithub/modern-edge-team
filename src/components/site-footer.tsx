@@ -1,5 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import { Logo } from "./logo";
+import { EMAILS, PHONE_CONTACTS, SOCIAL_LINKS, telHref } from "@/lib/company";
+
 
 const SERVICES = [
   { label: "Property Valuation", to: "/property-valuation" },
@@ -65,7 +67,7 @@ export function SiteFooter() {
           <p className="eyebrow">Contact</p>
           <ul className="mt-6 space-y-3 text-sm text-muted-foreground">
             <li>
-              <Link to="/contact" className="transition-colors hover:text-primary">
+              <Link to="/property-valuation" hash="request" className="transition-colors hover:text-primary">
                 Request a valuation
               </Link>
             </li>
@@ -74,22 +76,38 @@ export function SiteFooter() {
                 Start a project
               </Link>
             </li>
+            {EMAILS.map((email) => (
+              <li key={email}>
+                <a href={`mailto:${email}`} className="transition-colors hover:text-primary">
+                  {email}
+                </a>
+              </li>
+            ))}
+            <li>
+              <a href={telHref(PHONE_CONTACTS[0].numbers[0])} className="font-mono transition-colors hover:text-primary">
+                {PHONE_CONTACTS[0].numbers[0]}
+              </a>
+            </li>
           </ul>
           <p className="eyebrow mt-8">Social</p>
           <ul className="mt-4 flex gap-3">
-            {["FB", "IN", "IG"].map((s) => (
-              <li key={s}>
+            {SOCIAL_LINKS.map((social) => (
+              <li key={social.label}>
                 <a
-                  href="/contact"
-                  aria-label={s}
+                  href={social.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={social.label}
+                  title={social.label}
                   className="inline-flex h-8 w-8 items-center justify-center border border-border text-[0.6rem] font-bold tracking-widest text-muted-foreground transition-colors hover:border-primary hover:text-primary"
                 >
-                  {s}
+                  {social.short}
                 </a>
               </li>
             ))}
           </ul>
         </div>
+
       </div>
 
       <div className="border-t border-hairline">
